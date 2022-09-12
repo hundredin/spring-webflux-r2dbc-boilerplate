@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: underbout
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      base-path: /mgmt
+      exposure:
+        include: health, metrics

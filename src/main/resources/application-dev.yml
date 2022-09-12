@@ -1,0 +1,12 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  r2dbc:
+    url: r2dbc:postgresql://127.0.0.1:5432
+    username: admin
+    password: password
+  liquibase:
+    url: r2dbc:postgresql://127.0.0.1:5432
+    user: admin
+    password: password

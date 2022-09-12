@@ -1,7 +1,7 @@
-package com.underbout.api.handlers
+package com.example.api.handlers
 
-import com.underbout.api.entities.Person
-import com.underbout.api.services.PersonService
+import com.example.api.services.PostData
+import com.example.api.services.PostService
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -10,9 +10,20 @@ import org.springframework.web.reactive.function.server.ServerResponse.status
 import reactor.core.publisher.Mono
 
 @Component
-class PersonHandler(val personService: PersonService) {
+class PostHandler(val postService: PostService) {
     fun all(serverRequest: ServerRequest): Mono<ServerResponse> {
-        return personService.getAll()
+        return postService.getAll()
+            .collectList()
+            .flatMap { status(HttpStatus.OK).bodyValue(it) }
+            .switchIfEmpty(status(HttpStatus.NOT_FOUND).bodyValue("Not Found"))
+    }
+
+    fun getAllByAccount(serverRequest: ServerRequest): Mono<ServerResponse> {
+        val accountId = serverRequest.queryParam("accountId").orElseThrow {
+            RuntimeException("test")
+        }.toLong()
+
+        return postService.getByAccountId(accountId)
             .collectList()
             .flatMap { status(HttpStatus.OK).bodyValue(it) }
             .switchIfEmpty(status(HttpStatus.NOT_FOUND).bodyValue("Not Found"))
@@ -21,27 +32,21 @@ class PersonHandler(val personService: PersonService) {
     fun get(serverRequest: ServerRequest): Mono<ServerResponse> {
         val id = serverRequest.pathVariable("id").toLong()
 
-        return personService.get(id)
+        return postService.get(id)
             .flatMap { status(HttpStatus.OK).bodyValue(it) }
             .switchIfEmpty(status(HttpStatus.NOT_FOUND).bodyValue("Not Found"))
     }
 
     fun post(serverRequest: ServerRequest): Mono<ServerResponse> {
-        return serverRequest.bodyToMono(Person::class.java)
-            .flatMap { personService.create(it) }
-            .flatMap { status(HttpStatus.OK).bodyValue(it) }
-    }
-
-    fun put(serverRequest: ServerRequest): Mono<ServerResponse> {
-        return serverRequest.bodyToMono(Person::class.java)
-            .flatMap { personService.update(it) }
+        return serverRequest.bodyToMono(PostData::class.java)
+            .flatMap { postService.create(it) }
             .flatMap { status(HttpStatus.OK).bodyValue(it) }
     }
 
     fun delete(serverRequest: ServerRequest): Mono<ServerResponse> {
         val id = serverRequest.pathVariable("id").toLong()
 
-        return personService.delete(id)
+        return postService.delete(id)
             .flatMap { status(HttpStatus.OK).bodyValue("DELETED") }
             .switchIfEmpty(status(HttpStatus.NOT_FOUND).bodyValue("Not Found"))
     }

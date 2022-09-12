@@ -1,4 +1,4 @@
-package com.underbout.api
+package com.example.api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
