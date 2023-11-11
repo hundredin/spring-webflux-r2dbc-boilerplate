@@ -33,7 +33,6 @@ dependencies {
     implementation("org.springframework:spring-jdbc")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.liquibase:liquibase-core")
-    implementation("io.r2dbc:r2dbc-h2")
     implementation("org.postgresql:r2dbc-postgresql")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

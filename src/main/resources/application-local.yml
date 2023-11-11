@@ -3,13 +3,19 @@ spring:
     activate:
       on-profile: local
   r2dbc:
-    url: r2dbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
-    username: sa
-    password: password
+    url: r2dbc:postgresql://localhost:5432/springdb
+    username: spring
+    password: spring0!
   liquibase:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
-    user: sa
-    password: password
+    url: jdbc:postgresql://localhost:5432/springdb
+    user: spring
+    password: spring0!
+
+datasource:
+    host: localhost
+    username: spring
+    password: spring0!
+    database: springdb
 
 logging:
   level:

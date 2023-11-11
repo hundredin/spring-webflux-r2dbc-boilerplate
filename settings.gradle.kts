@@ -1,1 +1,1 @@
-rootProject.name = "underbout-api"
+rootProject.name = "spring-webflux-r2dbc-boilerplate"

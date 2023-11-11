@@ -1,6 +1,6 @@
 spring:
   application:
-    name: underbout
+    name: spring-webflux-r2dbc-boilerplate
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
     enabled: true
